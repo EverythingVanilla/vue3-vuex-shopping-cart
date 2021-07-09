@@ -3,7 +3,7 @@
     <div class="header__container container">
       <div class="header__logo">
         <h1 class="header__logo__title">
-          myzone
+          mystore
           <span>:)</span>
         </h1>
       </div>
