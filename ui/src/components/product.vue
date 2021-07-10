@@ -1,12 +1,12 @@
 <template>
-  <article class="product">
+  <article class="product debug">
     <div class="product__image">
       <img :src="image" lazy :alt="name" />
     </div>
     <h1 class="product__name">
       {{ getName }}
     </h1>
-    <h2 class="product__price">{{ price }}</h2>
+    <h2 class="product__price">{{ $filters.toUSDCurrency(price) }}</h2>
     <button
       v-if="!isAddedToCart"
       :disabled="isAddedToCart"

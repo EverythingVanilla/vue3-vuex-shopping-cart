@@ -1,5 +1,5 @@
 <template>
-  <div class="shopping-cart">
+  <div class="shopping-cart debug">
     <!-- CART LOGO -->
     <div class="shopping-cart__logo" @click="toggleShoppingCartContent">
       <img src="/assets/img/shopping-cart.svg" alt="myzone :)" />
@@ -8,8 +8,12 @@
     </div>
 
     <!-- CART CONTENT -->
-    <div v-show="isContentVisible" class="shopping-cart__content">
-      <shopping-cart-products @on-close="toggleShoppingCartContent" :products="products"></shopping-cart-products>
+    <div v-if="isContentVisible" class="shopping-cart__content">
+      <shopping-cart-products
+        :products="products"
+        @on-close="toggleShoppingCartContent"
+        @on-product-removal="onProductRemovalFromCart"
+      ></shopping-cart-products>
     </div>
   </div>
 </template>
@@ -39,6 +43,9 @@ export default defineComponent({
     toggleShoppingCartContent() {
       this.isContentVisible = !this.isContentVisible;
       document.body.style.overflowY = this.isContentVisible ? "hidden" : "scroll";
+    },
+    onProductRemovalFromCart(sku) {
+      this.$emit("onProductRemovalFromCart", sku);
     },
   },
 });

@@ -2,7 +2,7 @@
   <main>
     <Header>
       <template v-slot:shopping-cart>
-        <ShoppingCart :products="cartProducts"></ShoppingCart>
+        <ShoppingCart :products="cartProducts" @on-product-removal-from-cart="onRemoveProductFromCart"></ShoppingCart>
       </template>
     </Header>
 
