@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import axios from "axios";
+import { mapState, mapActions } from "vuex";
 import Header from "./components/header.vue";
 import Product from "./components/product.vue";
 import ShoppingCart from "./components/shopping-cart.vue";
@@ -32,32 +32,13 @@ export default {
   name: "App",
   components: { Product, ShoppingCart, Header },
   data() {
-    return {
-      products: [],
-      cartProducts: new Map(),
-    };
+    return {};
+  },
+  computed: {
+    ...mapState(["products", "cartProducts"]),
   },
   methods: {
-    async getProducts() {
-      try {
-        const { data: products } = await axios.get("/products");
-        this.products = products;
-      } catch (error) {
-        console.error(error);
-      }
-    },
-    onAddProductToCart(sku) {
-      const product = this.products.find((product) => product.sku === sku);
-
-      if (!this.cartProducts.has(product.sku)) {
-        this.cartProducts.set(product.sku, product);
-        console.info("Product added to cart: ", this.cartProducts.get(product.sku));
-      }
-    },
-    onRemoveProductFromCart(sku) {
-      this.cartProducts.delete(sku);
-      console.info("Product was removed from cart: ", sku);
-    },
+    ...mapActions(["onAddProductToCart", "onRemoveProductFromCart", "getProducts"]),
   },
   async created() {
     this.getProducts();
