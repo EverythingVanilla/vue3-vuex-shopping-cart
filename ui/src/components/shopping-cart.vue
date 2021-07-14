@@ -9,11 +9,7 @@
 
     <!-- CART CONTENT -->
     <div v-if="isContentVisible" class="shopping-cart__content">
-      <shopping-cart-products
-        :products="products"
-        @on-close="toggleShoppingCartContent"
-        @on-product-removal="onProductRemovalFromCart"
-      ></shopping-cart-products>
+      <shopping-cart-products @on-close="toggleShoppingCartContent"></shopping-cart-products>
     </div>
   </div>
 </template>
@@ -27,25 +23,17 @@ export default defineComponent({
     ShoppingCartProducts,
   },
   props: {
-    products: { type: Map },
+    productsQuantity: { type: Number },
   },
   data() {
     return {
       isContentVisible: false,
     };
   },
-  computed: {
-    productsQuantity() {
-      return this.products.size;
-    },
-  },
   methods: {
     toggleShoppingCartContent() {
       this.isContentVisible = !this.isContentVisible;
       document.body.style.overflowY = this.isContentVisible ? "hidden" : "scroll";
-    },
-    onProductRemovalFromCart(sku) {
-      this.$emit("onProductRemovalFromCart", sku);
     },
   },
 });

@@ -5,12 +5,16 @@
     </header>
 
     <div class="shopping-cart-products__content">
-      <article v-for="product in productsList" :key="product.sku" class="shopping-cart-products__product product">
+      <article
+        :key="product.sku"
+        v-for="product in cartProducts.products"
+        class="shopping-cart-products__product product"
+      >
         <img class="product__image" :src="product.image" :alt="product.name" />
         <div class="product__content">
           <span>{{ product.name }}</span>
           <h1>{{ $filters.toUSDCurrency(product.price) }}</h1>
-          <button @click="onProductRemoval(product.sku)" class="button">Remove</button>
+          <button @click="onRemoveProductFromCart(product.sku)" class="button">Remove</button>
         </div>
       </article>
     </div>
@@ -30,48 +34,22 @@
 
 <script>
 import { defineComponent } from "vue";
+import { mapActions, mapGetters } from "vuex";
 
 export default defineComponent({
-  props: {
-    products: { type: Map },
-  },
   data() {
-    return {
-      total: 0,
-      productsList: [],
-    };
-  },
-  mounted() {
-    this.prepareProducts(this.products);
+    return {};
   },
   computed: {
+    ...mapGetters(["cartProducts"]),
     getTotal() {
-      return this.$filters.toUSDCurrency(this.total);
+      return this.$filters.toUSDCurrency(this.cartProducts.total);
     },
   },
   methods: {
-    prepareProducts(products) {
-      this.productsList = [];
-      this.total = 0;
-      for (let [, product] of products) {
-        this.productsList.push(product);
-        this.total += product.price;
-      }
-    },
+    ...mapActions(["onRemoveProductFromCart"]),
     onCloseModal() {
       this.$emit("onClose");
-    },
-    onProductRemoval(sku) {
-      this.$emit("onProductRemoval", sku);
-    },
-  },
-  watch: {
-    products: {
-      deep: true,
-      handler(products) {
-        console.log("New products", products);
-        this.prepareProducts(products);
-      },
     },
   },
 });

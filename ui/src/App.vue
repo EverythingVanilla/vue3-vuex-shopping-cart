@@ -2,7 +2,7 @@
   <main>
     <Header>
       <template v-slot:shopping-cart>
-        <ShoppingCart :products="cartProducts" @on-product-removal-from-cart="onRemoveProductFromCart"></ShoppingCart>
+        <ShoppingCart :productsQuantity="cartProductsQuantity"></ShoppingCart>
       </template>
     </Header>
 
@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
+import { mapState, mapActions, mapGetters } from "vuex";
 import Header from "./components/header.vue";
 import Product from "./components/product.vue";
 import ShoppingCart from "./components/shopping-cart.vue";
@@ -36,6 +36,7 @@ export default {
   },
   computed: {
     ...mapState(["products", "cartProducts"]),
+    ...mapGetters(["cartProductsQuantity"]),
   },
   methods: {
     ...mapActions(["onAddProductToCart", "onRemoveProductFromCart", "getProducts"]),

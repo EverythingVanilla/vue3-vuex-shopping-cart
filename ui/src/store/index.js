@@ -43,4 +43,17 @@ export const store = createStore({
       context.commit("REMOVE_PRODUCT_FROM_CART", sku);
     },
   },
+  getters: {
+    cartProducts: (state) => {
+      let total = 0;
+      const products = [];
+      for (let [, product] of state.cartProducts) {
+        products.push(product);
+        total += product.price;
+      }
+
+      return { products, total };
+    },
+    cartProductsQuantity: (state) => state.cartProducts.size || 0,
+  },
 });
